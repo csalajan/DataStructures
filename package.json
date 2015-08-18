@@ -4,7 +4,7 @@
   "description": "Data Structures in JavaScript",
   "main": "DataStructures.js",
   "scripts": {
-    "prestart": "node_modules/bower/bin/bower install -F"
+    "postinstall": "bower install -F"
   },
   "author": "Craig Salajan",
   "license": "ISC",

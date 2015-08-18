@@ -1,0 +1,14 @@
+{
+  "name": "Data Structures",
+  "version": "0.0.0",
+  "authors": [
+    "Craig Salajan"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jasmine": "~2.3.4"
+  }
+}

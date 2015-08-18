@@ -5,6 +5,7 @@ var source = require('vinyl-source-stream');
 var cover = require('gulp-coverage');
 var git = require('gulp-git');
 var prompt = require('gulp-prompt');
+var commitMessage;
 
 gulp.task('default', ['browserify', 'jasmine']);
 
@@ -33,25 +34,36 @@ gulp.task('git-add', function() {
 		.pipe(git.add());
 });
 
-gulp.task('git-commit', ['git-add'], function() {
-	var message = "Initial Commit";
-	return gulp.src([
-			'./Core/*',
-			'./Structures/*',
-			'./test/*',
-			'bower.json',
-			'package.json',
-			'gulpfile.js',
-			'.gitignore'
-		], {buffer: false})
+gulp.task('git-commit-message', ['git-add'], function() {
+	return gulp.src('./')
 		.pipe(prompt.prompt({
 			type: 'input',
 			name: 'commit',
 			message: 'Please enter a commit message ...'
 		}, function(res) {
-			message = res.commit;
-		}))
-		.pipe(git.commit(message));
+			commitMessage = res.message;
+		}));
+})
+
+gulp.task('git-commit', ['git-commit-message'], function() {
+	var message;
+	gulp.src('package.json')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter a commit message ...'
+		}, function(res) {
+			return gulp.src([
+					'./Core/*',
+					'./Structures/*',
+					'./test/*',
+					'bower.json',
+					'package.json',
+					'gulpfile.js',
+					'.gitignore'
+				], {buffer: false})
+				.pipe(git.commit(res.commit));
+		}));
 });
 
 gulp.task('git-push', ['git-commit'], function() {

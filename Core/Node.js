@@ -7,6 +7,10 @@ var Node = function(element) {
 	this.previous = null;
 }
 
-Node.prototype = Base.prototype;
+Node.prototype = new Base();
+
+Node.prototype.Value = function() {
+	return this.element;
+}
 
 module.exports = Node;

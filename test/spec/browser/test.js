@@ -18,7 +18,11 @@ var Node = function(element) {
 	this.previous = null;
 }
 
-Node.prototype = Base.prototype;
+Node.prototype = new Base();
+
+Node.prototype.Value = function() {
+	return this.element;
+}
 
 module.exports = Node;
 },{"./Base.js":1}],3:[function(require,module,exports){
@@ -78,6 +82,7 @@ var List = require('./Structures/List.js');
 var Stack = require('./Structures/Stack.js');
 var LinkedList = require('./Structures/LinkedList.js');
 var HashTable = require('./Structures/HashTable.js');
+var RedBlackTree = require('./Structures/RedBlackTree.js');
 
 var DataStructures = function() {
 	return {
@@ -95,12 +100,15 @@ var DataStructures = function() {
 		},
 		HashTable: function() {
 			return new HashTable();
+		},
+		RedBlackTree: function() {
+			return new RedBlackTree();
 		}
 	}
 }
 
 module.exports = DataStructures;
-},{"./Structures/BinaryTree.js":6,"./Structures/HashTable.js":7,"./Structures/LinkedList.js":8,"./Structures/List.js":9,"./Structures/Stack.js":10}],6:[function(require,module,exports){
+},{"./Structures/BinaryTree.js":6,"./Structures/HashTable.js":7,"./Structures/LinkedList.js":8,"./Structures/List.js":9,"./Structures/RedBlackTree.js":10,"./Structures/Stack.js":11}],6:[function(require,module,exports){
 var BNode = require('../Core/Nodes.js');
 var NodeList = require('../Core/NodeList.js');
 var Base = require('../Core/Base.js');
@@ -229,9 +237,14 @@ BinaryTree.prototype.GetMax = function() {
 
 module.exports = BinaryTree;
 },{"../Core/Base.js":1,"../Core/NodeList.js":3,"../Core/Nodes.js":4}],7:[function(require,module,exports){
+var Base = require('../Core/Base.js');
+
 var HashTable = function() {
+	this.type = "HashTable";
 	this.table = new Array(137);
 }
+
+HashTable.prototype = new Base();
 
 HashTable.prototype.SimpleHash = function(data) {
 	var total = 0;
@@ -276,17 +289,24 @@ HashTable.prototype.Get = function() {
 }
 
 module.exports = HashTable;
-},{}],8:[function(require,module,exports){
+},{"../Core/Base.js":1}],8:[function(require,module,exports){
 var Node = require('../Core/Node.js');
+var Base = require('../Core/Base.js');
 
 var LinkedList = function() {
+	this.type = "LinkedList";
 	this.head = new Node("head");
 }
+
+LinkedList.prototype = new Base();
 
 LinkedList.prototype.Find = function(item) {
 	var currNode = this.head;
 	while (currNode.element != item) {
 		currNode = currNode.next;
+		if (currNode == undefined) {
+			return null;
+		}
 	}
 	return currNode;
 }
@@ -345,7 +365,7 @@ LinkedList.prototype.Reverse = function() {
 }
 
 module.exports = LinkedList;
-},{"../Core/Node.js":2}],9:[function(require,module,exports){
+},{"../Core/Base.js":1,"../Core/Node.js":2}],9:[function(require,module,exports){
 var Base = require('../Core/Base.js');
 
 var List = function() {
@@ -416,6 +436,26 @@ List.prototype.Contains = function(element) {
 
 module.exports = List;
 },{"../Core/Base.js":1}],10:[function(require,module,exports){
+var BinaryTree = require('./BinaryTree.js');
+
+var RedBlackTree = function() {
+	this.type = "RedBlackTree";
+	// this.root = new BinaryTreeNode();
+	// if (data != undefined) {
+	// 	data.forEach(function(item) {
+	// 		this.root.Populate(item);
+	// 	}.bind(this));
+	// }
+}
+
+RedBlackTree.prototype = new BinaryTree();
+
+RedBlackTree.prototype.Add = function(element) {
+	
+}
+
+module.exports = RedBlackTree;
+},{"./BinaryTree.js":6}],11:[function(require,module,exports){
 var Stack = function() {
 	this.dataStore = [];
 	this.top = 0;
@@ -442,7 +482,7 @@ Stack.prototype.Clear = function() {
 }
 
 module.exports = Stack;
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var ds = require('../../DataStructures.js');
 
 (function () {
@@ -561,6 +601,11 @@ var ds = require('../../DataStructures.js');
     		hashTable = ds().HashTable();
     	});
 
+    	it('creates a Hash Table object', function() {
+    		expect(hashTable).toEqual(jasmine.any(Object));
+    		expect(hashTable.GetType()).toEqual("HashTable");
+    	})
+
     });
 
     describe('Linked Lists', function() {
@@ -570,6 +615,25 @@ var ds = require('../../DataStructures.js');
     	beforeEach(function() {
     		linkedList = ds().LinkedList();
     	});
+
+    	it('should create a Linked List object', function() {
+    		expect(linkedList).toEqual(jasmine.any(Object));
+    		expect(linkedList.GetType()).toEqual("LinkedList");
+    	});
+
+    	it('inserts elements into Linked List', function() {
+    		linkedList.Insert(23, 'head');
+    		expect(linkedList.Find(23).Value()).toEqual(23);
+    	});
+
+    	it('removes element from Linked List', function() {
+    		linkedList.Insert(23, 'head');
+    		linkedList.Insert(24, 23);
+    		expect(linkedList.Find(23).Value()).toEqual(23);
+
+    		linkedList.Remove(23);
+    		expect(linkedList.Find(23)).toEqual(null);
+    	})
     });
 
     describe('Stacks', function() {
@@ -583,4 +647,4 @@ var ds = require('../../DataStructures.js');
   });
 })();
 
-},{"../../DataStructures.js":5}]},{},[11]);
+},{"../../DataStructures.js":5}]},{},[12]);

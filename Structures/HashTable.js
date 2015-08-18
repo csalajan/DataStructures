@@ -1,6 +1,11 @@
+var Base = require('../Core/Base.js');
+
 var HashTable = function() {
+	this.type = "HashTable";
 	this.table = new Array(137);
 }
+
+HashTable.prototype = new Base();
 
 HashTable.prototype.SimpleHash = function(data) {
 	var total = 0;

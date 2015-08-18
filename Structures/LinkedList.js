@@ -1,13 +1,20 @@
 var Node = require('../Core/Node.js');
+var Base = require('../Core/Base.js');
 
 var LinkedList = function() {
+	this.type = "LinkedList";
 	this.head = new Node("head");
 }
+
+LinkedList.prototype = new Base();
 
 LinkedList.prototype.Find = function(item) {
 	var currNode = this.head;
 	while (currNode.element != item) {
 		currNode = currNode.next;
+		if (currNode == undefined) {
+			return null;
+		}
 	}
 	return currNode;
 }

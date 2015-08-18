@@ -116,6 +116,11 @@ var ds = require('../../DataStructures.js');
     		hashTable = ds().HashTable();
     	});
 
+    	it('creates a Hash Table object', function() {
+    		expect(hashTable).toEqual(jasmine.any(Object));
+    		expect(hashTable.GetType()).toEqual("HashTable");
+    	})
+
     });
 
     describe('Linked Lists', function() {
@@ -125,6 +130,25 @@ var ds = require('../../DataStructures.js');
     	beforeEach(function() {
     		linkedList = ds().LinkedList();
     	});
+
+    	it('should create a Linked List object', function() {
+    		expect(linkedList).toEqual(jasmine.any(Object));
+    		expect(linkedList.GetType()).toEqual("LinkedList");
+    	});
+
+    	it('inserts elements into Linked List', function() {
+    		linkedList.Insert(23, 'head');
+    		expect(linkedList.Find(23).Value()).toEqual(23);
+    	});
+
+    	it('removes element from Linked List', function() {
+    		linkedList.Insert(23, 'head');
+    		linkedList.Insert(24, 23);
+    		expect(linkedList.Find(23).Value()).toEqual(23);
+
+    		linkedList.Remove(23);
+    		expect(linkedList.Find(23)).toEqual(null);
+    	})
     });
 
     describe('Stacks', function() {

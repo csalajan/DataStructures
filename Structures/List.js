@@ -1,9 +1,13 @@
+var Base = require('../Core/Base.js');
+
 var List = function() {
+	this.type = 'List';
 	this.listSize = 0;
 	this.pos = 0;
 	this.dataStore = [];
-
 }
+
+List.prototype = new Base();
 
 List.prototype.Add = function(element) {
 	this.dataStore[this.listSize++] = element;

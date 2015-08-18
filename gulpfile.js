@@ -11,10 +11,15 @@ gulp.task('default', ['browserify', 'jasmine']);
 
 gulp.task('push', ['git-push']);
 
+gulp.task('deploy', ['default', 'push']);
+
 gulp.task('jasmine', function() {
 	return gulp.src('./test/spec/test.js')
 		.pipe(cover.instrument({
-			pattern: ['./Structures/*']
+			pattern: [
+				'./Structures/*',
+				'./Core/*'
+				]
 		}))
 		.pipe(jasmine())
 		.pipe(cover.gather())

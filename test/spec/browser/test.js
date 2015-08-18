@@ -346,12 +346,16 @@ LinkedList.prototype.Reverse = function() {
 
 module.exports = LinkedList;
 },{"../Core/Node.js":2}],9:[function(require,module,exports){
+var Base = require('../Core/Base.js');
+
 var List = function() {
+	this.type = 'List';
 	this.listSize = 0;
 	this.pos = 0;
 	this.dataStore = [];
-
 }
+
+List.prototype = new Base();
 
 List.prototype.Add = function(element) {
 	this.dataStore[this.listSize++] = element;
@@ -411,7 +415,7 @@ List.prototype.Contains = function(element) {
 }
 
 module.exports = List;
-},{}],10:[function(require,module,exports){
+},{"../Core/Base.js":1}],10:[function(require,module,exports){
 var Stack = function() {
 	this.dataStore = [];
 	this.top = 0;
@@ -458,13 +462,11 @@ var ds = require('../../DataStructures.js');
 		});
 
 		it('should create a binary tree', function () {
-			
 			expect(tree).toEqual(jasmine.any(Object));
 			expect(tree.GetType()).toEqual("BinaryTree");
 		});
 
 		it('should populate a binary tree', function() {
-			
 			expect(tree.Root().Value()).toEqual(16);
 			expect(tree.Root().Right().Value()).toEqual(23);
 			expect(tree.Root().Left().Value()).toEqual(7);
@@ -511,6 +513,11 @@ var ds = require('../../DataStructures.js');
     		testData.forEach(function(item) {
     			list.Add(item);
     		})
+    	});
+
+    	it('returns type of List', function() {
+    		expect(list).toEqual(jasmine.any(Object));
+    		expect(list.GetType()).toEqual('List');
     	});
 
     	it('returns the correct length', function() {

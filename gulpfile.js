@@ -73,7 +73,7 @@ gulp.task('git-push', ['git-add'], function() {
 					'.gitignore'
 				], {buffer: false})
 				.pipe(git.commit(res.commit))
-				.pipe(prompt.prompt({
+				.pipe(prompt.prompt([{
 					type: 'input',
 					name: 'remote',
 					message: 'Remote: '
@@ -82,7 +82,7 @@ gulp.task('git-push', ['git-add'], function() {
 					type: 'input',
 					name: 'branch',
 					message: 'Branch: '
-				}, function(res) {
+				}], function(res) {
 					return git.push(res.remote, res.branch, function(err) {
 						if (err) throw err;
 					})

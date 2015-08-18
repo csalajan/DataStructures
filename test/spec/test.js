@@ -40,6 +40,8 @@ var ds = require('../../DataStructures.js');
 		it('should clear the binary tree', function() {
 			tree.Clear();
 			expect(tree.Root().Value()).toEqual(undefined);
+			tree.Root(23);
+			expect(tree.Root().Value()).toEqual(23);
 		});
 
 		it('should display contents of binary tree', function() {
@@ -49,7 +51,58 @@ var ds = require('../../DataStructures.js');
 		it('should find the correct element', function() {
 			expect(tree.Find(18).Value()).toEqual(18);
 			expect(tree.Find(99)).toEqual(null);
-		})
+		});
+
+		it('should repopulate the tree on initialization', function() {
+			tree.Clear();
+			expect(tree.Root().Value()).toEqual(undefined);
+			tree = ds().BST(testData);
+			expect(tree.Scan()).toEqual("16,7,4,15,9,12,23,18,42,27");
+		});
+    });
+
+	describe('Lists', function() {
+    	var testData = [23, 7, 14, 33, 27, 1, 18, 24];
+    	var list;
+
+    	beforeEach(function() {
+    		list = ds().List();
+    		testData.forEach(function(item) {
+    			list.Add(item);
+    		})
+    	});
+
+    	it('returns the correct length', function() {
+    		expect(list.Length()).toEqual(8);
+    	})
+
+    	it('doesn\'t find a value', function() {
+    		expect(list.Find(88)).toEqual(-1);
+    	})
+
+    	it('checks list for elements', function() {
+    		expect(list.Contains(18)).toEqual(true);
+    		expect(list.Contains(88)).toEqual(false);
+    	});
+
+    	it('inserts element after another element', function() {
+    		list.Insert(99, 7);
+    		expect(list.Insert(100, 88)).toEqual(false);
+    		expect(list.ToString()).toEqual([ 23, 7, 99, 14, 33, 27, 1, 18, 24 ]);
+
+    	});
+
+    	it('removes element from the list', function() {
+    		list.Remove(18);
+    		expect(list.Remove(88)).toEqual(false);
+    		expect(list.ToString()).toEqual([ 23, 7, 14, 33, 27, 1, 24 ]);
+
+    	});
+
+    	it('clears the list', function() {
+    		list.Clear();
+    		expect(list.ToString()).toEqual([]);
+    	});
     });
 
     describe('Hash Tables', function() {
@@ -69,20 +122,6 @@ var ds = require('../../DataStructures.js');
     	beforeEach(function() {
     		linkedList = ds().LinkedList();
     	});
-    });
-
-    describe('Lists', function() {
-    	var testData = [];
-    	var list;
-
-    	beforeEach(function() {
-    		list = ds().List();
-    	});
-
-    	it('Adds item to the list', function() {
-    		list.Add(123);
-    		expect(list.Find(123)).toEqual(123);
-    	})
     });
 
     describe('Stacks', function() {

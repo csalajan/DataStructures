@@ -31,28 +31,20 @@ BinaryTreeNode.prototype.GetRight = function() {
 	return this.neighbors['right'];
 }
 
-BinaryTreeNode.prototype.Left = function(value) {
+BinaryTreeNode.prototype.Left = function() {
 	if (this.Neighbors() == null) {
 		this.Neighbors(new NodeList())
 	}
-	if (typeof(value) === 'undefined') {
-		return this.neighbors['left'];
-	}
-		
-	this.neighbors['left'] = new BNode(value);
-	
+
+	return this.neighbors['left'];
 }
 
-BinaryTreeNode.prototype.Right = function(value) {
+BinaryTreeNode.prototype.Right = function() {
 	if (this.Neighbors() == null) {
 		this.Neighbors(new NodeList())
 	}
 
-	if (typeof(value) === 'undefined') {
-		return this.neighbors['right'];
-	}
-
-	this.neighbors['right'] = new BNode(value);
+	return this.neighbors['right'];
 }
 
 var BinaryTree = function(data) {
@@ -76,7 +68,7 @@ BinaryTree.prototype.Root = function(value) {
 		return this.root;
 	}
 
-	this.root = value;
+	this.root.Value(value);
 }
 
 BinaryTree.prototype.Scan = function() {

@@ -34,18 +34,7 @@ gulp.task('git-add', function() {
 		.pipe(git.add());
 });
 
-gulp.task('git-commit-message', ['git-add'], function() {
-	return gulp.src('./')
-		.pipe(prompt.prompt({
-			type: 'input',
-			name: 'commit',
-			message: 'Please enter a commit message ...'
-		}, function(res) {
-			commitMessage = res.message;
-		}));
-})
-
-gulp.task('git-commit', ['git-commit-message'], function() {
+gulp.task('git-commit', ['git-add'], function() {
 	var message;
 	gulp.src('package.json')
 		.pipe(prompt.prompt({

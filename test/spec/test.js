@@ -36,6 +36,20 @@ var ds = require('../../DataStructures.js');
 		it('should find the maximum value', function() {
 			expect(tree.GetMax().Value()).toEqual(42);
 		});
+
+		it('should clear the binary tree', function() {
+			tree.Clear();
+			expect(tree.Root().Value()).toEqual(undefined);
+		});
+
+		it('should display contents of binary tree', function() {
+			expect(tree.Scan()).toEqual("16,7,4,15,9,12,23,18,42,27");
+		});
+
+		it('should find the correct element', function() {
+			expect(tree.Find(18).Value()).toEqual(18);
+			expect(tree.Find(99)).toEqual(null);
+		})
     });
 
     describe('Hash Tables', function() {
@@ -63,6 +77,11 @@ var ds = require('../../DataStructures.js');
 
     	beforeEach(function() {
     		list = ds().List();
+    	});
+
+    	it('Adds item to the list', function() {
+    		list.Add(123);
+    		expect(list.Find(123)).toEqual(123);
     	})
     });
 

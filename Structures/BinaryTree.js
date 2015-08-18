@@ -84,12 +84,15 @@ BinaryTree.prototype.Scan = function() {
 }
 
 BinaryTree.prototype.PreorderTraversal = function(current) {
+	var tree = [];
 	if (current !== null && typeof(current) !== 'undefined' && current.Value() !== null && typeof(current.Value()) !== 'undefined') {
-		console.log(current.Value());
+		tree.push(current.Value());
 
-		this.PreorderTraversal(current.GetLeft());
-		this.PreorderTraversal(current.GetRight());
+		tree.push(this.PreorderTraversal(current.GetLeft()));
+		tree.push(this.PreorderTraversal(current.GetRight()));
+		return tree.filter(function(n) { return n != null }).toString();
 	}
+	
 }
 
 BinaryTree.prototype.Find = function(value) {

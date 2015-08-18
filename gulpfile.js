@@ -9,11 +9,7 @@ var commitMessage;
 
 gulp.task('default', ['browserify', 'jasmine']);
 
-gulp.task('push', ['git-push'], function() {
-	return git.push('origin', 'master', function(err) {
-		if (err) throw err;
-	});
-});
+gulp.task('push', ['git-push']);
 
 gulp.task('jasmine', function() {
 	return gulp.src('./test/spec/test.js')

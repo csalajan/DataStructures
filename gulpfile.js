@@ -9,7 +9,7 @@ var commitMessage;
 
 gulp.task('default', ['browserify', 'jasmine']);
 
-gulp.task('push', ['git-commit'], function() {
+gulp.task('push', ['git-push'], function() {
 	return git.push('origin', 'master', function(err) {
 		if (err) throw err;
 	});
@@ -56,5 +56,29 @@ gulp.task('git-commit', ['git-add'], function() {
 					'.gitignore'
 				], {buffer: false})
 				.pipe(git.commit(res.commit));
+		}));
+});
+
+gulp.task('git-push', ['git-add'], function() {
+	var message;
+	gulp.src('package.json')
+		.pipe(prompt.prompt({
+			type: 'input',
+			name: 'commit',
+			message: 'Please enter a commit message ...'
+		}, function(res) {
+			return gulp.src([
+					'./Core/*',
+					'./Structures/*',
+					'./test/*',
+					'bower.json',
+					'package.json',
+					'gulpfile.js',
+					'.gitignore'
+				], {buffer: false})
+				.pipe(git.commit(res.commit))
+				.pipe(git.push('origin', 'master', function(err) {
+					if (err) throw err;
+				}));
 		}));
 });

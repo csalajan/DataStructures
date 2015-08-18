@@ -9,7 +9,11 @@ var commitMessage;
 
 gulp.task('default', ['browserify', 'jasmine']);
 
-gulp.task('push', ['git-push']);
+gulp.task('push', ['git-commit'], function() {
+	return git.push('origin', 'master', function(err) {
+		if (err) throw err;
+	});
+});
 
 gulp.task('jasmine', function() {
 	return gulp.src('./test/spec/test.js')
@@ -53,10 +57,4 @@ gulp.task('git-commit', ['git-add'], function() {
 				], {buffer: false})
 				.pipe(git.commit(res.commit));
 		}));
-});
-
-gulp.task('git-push', ['git-commit'], function() {
-	return git.push('origin', 'master', function(err) {
-		if (err) throw err;
-	});
 });

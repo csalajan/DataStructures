@@ -12,7 +12,10 @@
     "bower": "^1.4.1",
     "browserify": "^11.0.1",
     "gulp": "^3.9.0",
+    "gulp-coverage": "^0.3.36",
+    "gulp-git": "^1.2.4",
     "gulp-jasmine": "^2.0.1",
+    "gulp-prompt": "^0.1.2",
     "vinyl-source-stream": "^1.1.0"
   }
 }

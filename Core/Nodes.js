@@ -1,7 +1,12 @@
+var Base = require('./Base.js');
+
 var BNode = function(value, neighbors) {
+	this.type = "BinaryTreeNode";
 	this.value = value;
 	this.neighbors = neighbors;
 }
+
+BNode.prototype = Base.prototype;
 
 BNode.prototype.Value = function(value) {
 	if (typeof(value) === 'undefined') {

@@ -1,8 +1,10 @@
 var BNode = require('../Core/Nodes.js');
 var NodeList = require('../Core/NodeList.js');
+var Base = require('../Core/Base.js');
 
 
 var BinaryTreeNode = function(data) {
+	this.type = "BinaryTreeNode";
 	this.Value(data);
 	var children = new NodeList();
 	children['left'] = new BNode(null, new NodeList(2));
@@ -54,6 +56,7 @@ BinaryTreeNode.prototype.Right = function(value) {
 }
 
 var BinaryTree = function(data) {
+	this.type = "BinaryTree";
 	this.root = new BinaryTreeNode();
 	if (data != undefined) {
 		data.forEach(function(item) {
@@ -61,6 +64,8 @@ var BinaryTree = function(data) {
 		}.bind(this));
 	}
 }
+
+BinaryTree.prototype = Base.prototype;
 
 BinaryTree.prototype.Clear = function() {
 	this.root = new BinaryTreeNode();

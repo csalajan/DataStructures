@@ -19,6 +19,7 @@ var ds = require('../../DataStructures.js');
 		it('should create a binary tree', function () {
 			
 			expect(tree).toEqual(jasmine.any(Object));
+			expect(tree.GetType()).toEqual("BinaryTree");
 		});
 
 		it('should populate a binary tree', function() {

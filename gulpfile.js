@@ -73,8 +73,19 @@ gulp.task('git-push', ['git-add'], function() {
 					'.gitignore'
 				], {buffer: false})
 				.pipe(git.commit(res.commit))
-				.pipe(git.push('origin', 'master', function(err) {
-					if (err) throw err;
+				.pipe(prompt.prompt({
+					type: 'input',
+					name: 'remote',
+					message: 'Remote: '
+				},
+				{
+					type: 'input',
+					name: 'branch',
+					message: 'Branch: '
+				}, function(res) {
+					return git.push(res.remote, res.branch, function(err) {
+						if (err) throw err;
+					})
 				}));
 		}));
 });

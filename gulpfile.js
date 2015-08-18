@@ -43,7 +43,7 @@ gulp.task('git-commit', ['git-add'], function() {
 			'package.json',
 			'gulpfile.js',
 			'.gitignore'
-		])
+		], {buffer: false})
 		.pipe(prompt.prompt({
 			type: 'input',
 			name: 'commit',

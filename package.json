@@ -1,0 +1,17 @@
+{
+  "name": "DataStructures",
+  "version": "1.0.0",
+  "description": "Data Structures in JavaScript",
+  "main": "DataStructures.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Craig Salajan",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "gulp": "^3.9.0",
+    "gulp-jasmine": "^2.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

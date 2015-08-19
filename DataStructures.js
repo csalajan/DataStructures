@@ -3,6 +3,7 @@ var List = require('./Structures/List.js');
 var Stack = require('./Structures/Stack.js');
 var LinkedList = require('./Structures/LinkedList.js');
 var HashTable = require('./Structures/HashTable.js');
+var RedBlackTree = require('./Structures/RedBlackTree.js');
 
 var DataStructures = function() {
 	return {
@@ -20,6 +21,9 @@ var DataStructures = function() {
 		},
 		HashTable: function() {
 			return new HashTable();
+		},
+		RedBlackTree: function() {
+			return new RedBlackTree();
 		}
 	}
 }

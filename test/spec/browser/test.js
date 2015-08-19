@@ -80,30 +80,38 @@ module.exports = Node;
 },{"./Base.js":1}],4:[function(require,module,exports){
 var BinaryTreeNode = require('./BinaryTreeNode.js');
 
-var RedBlackNode = function(data) {
+var RedBlackNode = function(parent, isRed) {
 	this.type = "RedBlackNode";
-	this.red = false;
+	this.red = (isRed === undefined) ? true : isRed;
+	this.children = {
+		left: 0,
+		right: 0
+	};
 	this.neighbors = {
 		left: null,
 		right: null,
+		parent: parent
 	}
-	this.Value(data);
 }
 
 RedBlackNode.prototype = new BinaryTreeNode();
 
 RedBlackNode.prototype.Left = function() {
 	if (this.neighbors.left == null) {
-		this.neighbors.left = new RedBlackNode();
+		this.neighbors.left = new RedBlackNode(this);
 	}
 	return this.neighbors.left;
 }
 
 RedBlackNode.prototype.Right = function() {
 	if (this.neighbors.right == null) {
-		this.neighbors.right = new RedBlackNode();
+		this.neighbors.right = new RedBlackNode(this);
 	}
 	return this.neighbors.right;
+}
+
+RedBlackNode.prototype.Parent = function() {
+	return this.neighbors.parent;
 }
 
 RedBlackNode.prototype.Color = function() {
@@ -117,11 +125,13 @@ RedBlackNode.prototype.IsRed = function() {
 RedBlackNode.prototype.Populate = function(data, isRed) {
 	if (this.Value() == null) {
 		this.Value(data);
-		this.red = !isRed;
+		return (isRed && this.IsRed());
 	} else if (data < this.Value()) {
-		this.Left().Populate(data, this.IsRed());
+		this.children.left++
+		return this.Left().Populate(data, this.IsRed());
 	} else {
-		this.Right().Populate(data, this.IsRed());
+		this.children.right++
+		return this.Right().Populate(data, this.IsRed());
 	}
 }
 
@@ -130,6 +140,17 @@ RedBlackNode.prototype.ChangeColor = function() {
 		this.red = false;
 	} else {
 		this.red = true;
+	}
+}
+
+RedBlackNode.prototype.Children = function(side) {
+	switch(side) {
+		case "left":
+			return this.children.left;
+		case "right":
+			return this.children.right;
+		default:
+			return this.children.left + this.children.right;
 	}
 }
 
@@ -453,7 +474,7 @@ var RedBlackNode = require('../Core/RedBlackNode.js');
 
 var RedBlackTree = function(data) {
 	this.type = "RedBlackTree";
-	this.root = new RedBlackNode();
+	this.root = new RedBlackNode(this, false);
 	if (data != undefined) {
 		data.forEach(function(item) {
 			this.root.Populate(item, this.root.IsRed());
@@ -463,6 +484,38 @@ var RedBlackTree = function(data) {
 
 RedBlackTree.prototype = new BinaryTree();
 
+RedBlackTree.prototype.Add = function(data) {
+	if(this.root.Populate(data, this.root.IsRed())) {
+		// There are 2 reds next to each other
+		// Need to Rotate the last added value
+		var last = this.Find(data);
+		var parent = last.Parent();
+		last.Parent().Value(last.Value);
+		this.RePopulate(parent);
+
+	};
+
+	this.Rebalance();
+}
+
+RedBlackTree.prototype.NodeCount = function() {
+	return this.Root().Children() + 1;
+}
+
+RedBlackTree.prototype.Rebalance = function() {
+	var difference = Math.abs(this.Root().Children('left') - this.Root().Children('right'));
+	if (difference > this.NodeCount() / 2) {
+		// Rotate Root
+	}
+}
+
+RedBlackTree.prototype.RePopulate = function(node) {
+	if (node !== undefined) {
+		this.Add(node.Value());
+		this.RePopulate(node.GetLeft());
+		this.RePopulate(node.GetRight());
+	}
+}
 
 module.exports = RedBlackTree;
 },{"../Core/RedBlackNode.js":4,"./BinaryTree.js":6}],11:[function(require,module,exports){
@@ -653,6 +706,22 @@ var ds = require('../../DataStructures.js');
     	beforeEach(function() {
     		stack = ds().Stack();
     	})
+    });
+
+    describe('Red Black Trees', function() {
+    	
+    	var rbt;
+
+    	beforeEach(function() {
+    		rbt = ds().RedBlackTree();
+    	});
+
+    	it('Correctly rotates when a red node has a child red node', function() {
+    		rbt.Add(23);
+    		rbt.Add(15);
+    		rbt.Add(14);
+    		expect(rbt.Root().Value()).toEqual(15);
+    	});
     })
   });
 })();

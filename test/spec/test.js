@@ -158,6 +158,22 @@ var ds = require('../../DataStructures.js');
     	beforeEach(function() {
     		stack = ds().Stack();
     	})
+    });
+
+    describe('Red Black Trees', function() {
+    	
+    	var rbt;
+
+    	beforeEach(function() {
+    		rbt = ds().RedBlackTree();
+    	});
+
+    	it('Correctly rotates when a red node has a child red node', function() {
+    		rbt.Add(23);
+    		rbt.Add(15);
+    		rbt.Add(14);
+    		expect(rbt.Root().Value()).toEqual(15);
+    	});
     })
   });
 })();

@@ -4,8 +4,7 @@
  - Clone the repo
  - ``` npm install ```
  
- ## Gulp Tasks
- 
+## Gulp Tasks
  - Default
    - Runs Jasmine Tests
    - Browserify's code

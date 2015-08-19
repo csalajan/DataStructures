@@ -1,51 +1,5 @@
-var BNode = require('../Core/Nodes.js');
-var NodeList = require('../Core/NodeList.js');
+var BinaryTreeNode = require('../Core/BinaryTreeNode.js');
 var Base = require('../Core/Base.js');
-
-
-var BinaryTreeNode = function(data) {
-	this.type = "BinaryTreeNode";
-	this.Value(data);
-	var children = new NodeList();
-	children['left'] = new BNode(null, new NodeList(2));
-	children['right'] = new BNode(null, new NodeList(2));
-
-	this.neighbors = children;
-}
-
-BinaryTreeNode.prototype = BNode.prototype;
-
-BinaryTreeNode.prototype.GetLeft = function() {
-	if (this.Neighbors() === null || typeof(this.Neighbors()) === 'undefined') {
-		return null;
-	}
-
-	return this.neighbors['left'];
-}
-
-BinaryTreeNode.prototype.GetRight = function() {
-	if (this.Neighbors() === null || typeof(this.Neighbors()) === 'undefined') {
-		return null;
-	}
-
-	return this.neighbors['right'];
-}
-
-BinaryTreeNode.prototype.Left = function() {
-	if (this.Neighbors() == null) {
-		this.Neighbors(new NodeList())
-	}
-
-	return this.neighbors['left'];
-}
-
-BinaryTreeNode.prototype.Right = function() {
-	if (this.Neighbors() == null) {
-		this.Neighbors(new NodeList())
-	}
-
-	return this.neighbors['right'];
-}
 
 var BinaryTree = function(data) {
 	this.type = "BinaryTree";
@@ -57,7 +11,7 @@ var BinaryTree = function(data) {
 	}
 }
 
-BinaryTree.prototype = Base.prototype;
+BinaryTree.prototype = new Base();
 
 BinaryTree.prototype.Clear = function() {
 	this.root = new BinaryTreeNode();

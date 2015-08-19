@@ -9,8 +9,12 @@ var Node = function(element) {
 
 Node.prototype = new Base();
 
-Node.prototype.Value = function() {
-	return this.element;
+Node.prototype.Value = function(data) {
+	if (data == undefined) {
+		return this.element;
+	}
+
+	this.element = data;
 }
 
 module.exports = Node;

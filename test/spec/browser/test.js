@@ -9,6 +9,54 @@ Base.prototype.GetType = function() {
 
 module.exports = Base;
 },{}],2:[function(require,module,exports){
+var Node = require('./Node.js');
+
+var BinaryTreeNode = function(data) {
+	this.type = "BinaryTreeNode";
+	this.neighbors = {
+		left: null,
+		right: null,
+	}
+	this.Value(data);
+}
+
+BinaryTreeNode.prototype = new Node();
+
+BinaryTreeNode.prototype.GetLeft = function() {
+	return this.neighbors.left;
+}
+
+BinaryTreeNode.prototype.GetRight = function() {
+	return this.neighbors.right;
+}
+
+BinaryTreeNode.prototype.Left = function() {
+	if (this.neighbors.left == null) {
+		this.neighbors.left = new BinaryTreeNode();
+	}
+	return this.neighbors.left;
+}
+
+BinaryTreeNode.prototype.Right = function() {
+	if (this.neighbors.right == null) {
+		this.neighbors.right = new BinaryTreeNode();
+	}
+	return this.neighbors.right;
+}
+
+
+BinaryTreeNode.prototype.Populate = function(value) {
+	if (this.Value() === null || typeof(this.Value()) === 'undefined') {
+		return this.Value(value);
+	} else if (value < this.Value()) {
+		return this.Left().Populate(value);
+	} else {
+		return this.Right().Populate(value);
+	}
+}
+
+module.exports = BinaryTreeNode;
+},{"./Node.js":3}],3:[function(require,module,exports){
 var Base = require('./Base.js');
 
 var Node = function(element) {
@@ -20,63 +68,16 @@ var Node = function(element) {
 
 Node.prototype = new Base();
 
-Node.prototype.Value = function() {
-	return this.element;
+Node.prototype.Value = function(data) {
+	if (data == undefined) {
+		return this.element;
+	}
+
+	this.element = data;
 }
 
 module.exports = Node;
-},{"./Base.js":1}],3:[function(require,module,exports){
-var Node = require('./Nodes.js');
-
-var NodeList = function() {
-	this['parent'] = new Node(null);
-	this['left'] = new Node(null);
-	this['right'] = new Node(null);
-
-}
-
-NodeList.prototype = Array.prototype;
-
-module.exports = NodeList;
-},{"./Nodes.js":4}],4:[function(require,module,exports){
-var Base = require('./Base.js');
-
-var BNode = function(value, neighbors) {
-	this.type = "BinaryTreeNode";
-	this.value = value;
-	this.neighbors = neighbors;
-}
-
-BNode.prototype = Base.prototype;
-
-BNode.prototype.Value = function(value) {
-	if (typeof(value) === 'undefined') {
-		return this.value;
-	}
-
-	this.value = value;
-}
-
-BNode.prototype.Neighbors = function(value) {
-	if (typeof(value) === 'undefined') {
-		return this.neighbors;
-	}
-
-	this.neighbors = value;
-}
-
-BNode.prototype.Populate = function(value) {
-	if (this.Value() === null || typeof(this.Value()) === 'undefined') {
-		return this.Value(value);
-	} else if (value < this.Value()) {
-		return this.Left().Populate(value);
-	} else {
-		return this.Right().Populate(value);
-	}
-}
-
-module.exports = BNode;
-},{"./Base.js":1}],5:[function(require,module,exports){
+},{"./Base.js":1}],4:[function(require,module,exports){
 var BinaryTree = require('./Structures/BinaryTree.js');
 var List = require('./Structures/List.js');
 var Stack = require('./Structures/Stack.js');
@@ -108,55 +109,9 @@ var DataStructures = function() {
 }
 
 module.exports = DataStructures;
-},{"./Structures/BinaryTree.js":6,"./Structures/HashTable.js":7,"./Structures/LinkedList.js":8,"./Structures/List.js":9,"./Structures/RedBlackTree.js":10,"./Structures/Stack.js":11}],6:[function(require,module,exports){
-var BNode = require('../Core/Nodes.js');
-var NodeList = require('../Core/NodeList.js');
+},{"./Structures/BinaryTree.js":5,"./Structures/HashTable.js":6,"./Structures/LinkedList.js":7,"./Structures/List.js":8,"./Structures/RedBlackTree.js":9,"./Structures/Stack.js":10}],5:[function(require,module,exports){
+var BinaryTreeNode = require('../Core/BinaryTreeNode.js');
 var Base = require('../Core/Base.js');
-
-
-var BinaryTreeNode = function(data) {
-	this.type = "BinaryTreeNode";
-	this.Value(data);
-	var children = new NodeList();
-	children['left'] = new BNode(null, new NodeList(2));
-	children['right'] = new BNode(null, new NodeList(2));
-
-	this.neighbors = children;
-}
-
-BinaryTreeNode.prototype = BNode.prototype;
-
-BinaryTreeNode.prototype.GetLeft = function() {
-	if (this.Neighbors() === null || typeof(this.Neighbors()) === 'undefined') {
-		return null;
-	}
-
-	return this.neighbors['left'];
-}
-
-BinaryTreeNode.prototype.GetRight = function() {
-	if (this.Neighbors() === null || typeof(this.Neighbors()) === 'undefined') {
-		return null;
-	}
-
-	return this.neighbors['right'];
-}
-
-BinaryTreeNode.prototype.Left = function() {
-	if (this.Neighbors() == null) {
-		this.Neighbors(new NodeList())
-	}
-
-	return this.neighbors['left'];
-}
-
-BinaryTreeNode.prototype.Right = function() {
-	if (this.Neighbors() == null) {
-		this.Neighbors(new NodeList())
-	}
-
-	return this.neighbors['right'];
-}
 
 var BinaryTree = function(data) {
 	this.type = "BinaryTree";
@@ -168,7 +123,7 @@ var BinaryTree = function(data) {
 	}
 }
 
-BinaryTree.prototype = Base.prototype;
+BinaryTree.prototype = new Base();
 
 BinaryTree.prototype.Clear = function() {
 	this.root = new BinaryTreeNode();
@@ -236,7 +191,7 @@ BinaryTree.prototype.GetMax = function() {
 }
 
 module.exports = BinaryTree;
-},{"../Core/Base.js":1,"../Core/NodeList.js":3,"../Core/Nodes.js":4}],7:[function(require,module,exports){
+},{"../Core/Base.js":1,"../Core/BinaryTreeNode.js":2}],6:[function(require,module,exports){
 var Base = require('../Core/Base.js');
 
 var HashTable = function() {
@@ -289,7 +244,7 @@ HashTable.prototype.Get = function() {
 }
 
 module.exports = HashTable;
-},{"../Core/Base.js":1}],8:[function(require,module,exports){
+},{"../Core/Base.js":1}],7:[function(require,module,exports){
 var Node = require('../Core/Node.js');
 var Base = require('../Core/Base.js');
 
@@ -365,7 +320,7 @@ LinkedList.prototype.Reverse = function() {
 }
 
 module.exports = LinkedList;
-},{"../Core/Base.js":1,"../Core/Node.js":2}],9:[function(require,module,exports){
+},{"../Core/Base.js":1,"../Core/Node.js":3}],8:[function(require,module,exports){
 var Base = require('../Core/Base.js');
 
 var List = function() {
@@ -435,17 +390,17 @@ List.prototype.Contains = function(element) {
 }
 
 module.exports = List;
-},{"../Core/Base.js":1}],10:[function(require,module,exports){
+},{"../Core/Base.js":1}],9:[function(require,module,exports){
 var BinaryTree = require('./BinaryTree.js');
 
 var RedBlackTree = function() {
 	this.type = "RedBlackTree";
-	// this.root = new BinaryTreeNode();
-	// if (data != undefined) {
-	// 	data.forEach(function(item) {
-	// 		this.root.Populate(item);
-	// 	}.bind(this));
-	// }
+	this.root = new BinaryTreeNode();
+	if (data != undefined) {
+		data.forEach(function(item) {
+			this.root.Populate(item);
+		}.bind(this));
+	}
 }
 
 RedBlackTree.prototype = new BinaryTree();
@@ -455,7 +410,7 @@ RedBlackTree.prototype.Add = function(element) {
 }
 
 module.exports = RedBlackTree;
-},{"./BinaryTree.js":6}],11:[function(require,module,exports){
+},{"./BinaryTree.js":5}],10:[function(require,module,exports){
 var Stack = function() {
 	this.dataStore = [];
 	this.top = 0;
@@ -482,7 +437,7 @@ Stack.prototype.Clear = function() {
 }
 
 module.exports = Stack;
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var ds = require('../../DataStructures.js');
 
 (function () {
@@ -647,4 +602,4 @@ var ds = require('../../DataStructures.js');
   });
 })();
 
-},{"../../DataStructures.js":5}]},{},[12]);
+},{"../../DataStructures.js":4}]},{},[11]);
